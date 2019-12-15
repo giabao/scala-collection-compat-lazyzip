@@ -67,7 +67,7 @@ class LazyZipOpsTest {
   def lazyZip2_toIterable(): Unit = {
     val iter: collection.Iterable[(Int, Int)] = zipped2
 
-    assertEquals(List((1, 1), (2, 2), (3, 3)), iter.to(List))
+    assertEquals(List((1, 1), (2, 2), (3, 3)), iter.toList)
   }
 
   @Test
@@ -145,7 +145,7 @@ class LazyZipOpsTest {
   def lazyZip3_toIterable(): Unit = {
     val iter: collection.Iterable[(Int, Int, String)] = zipped3
 
-    assertEquals(List((1, 1, "a"), (2, 2, "b"), (3, 3, "c")), iter.to(List))
+    assertEquals(List((1, 1, "a"), (2, 2, "b"), (3, 3, "c")), iter.toList)
   }
 
   @Test
@@ -224,7 +224,7 @@ class LazyZipOpsTest {
   def lazyZip4_toIterable(): Unit = {
     val iter: collection.Iterable[(Int, Int, String, Boolean)] = zipped4
 
-    assertEquals(List((1, 1, "a", true), (2, 2, "b", false), (3, 3, "c", true)), iter.to(List))
+    assertEquals(List((1, 1, "a", true), (2, 2, "b", false), (3, 3, "c", true)), iter.toList)
   }
 
   @Test

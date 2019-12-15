@@ -23,4 +23,13 @@ object LazyZipOpsImplicits {
      */
     def lazyZip[B](that: Iterable[B]): LazyZip2[A, B, C[A]] = new LazyZip2(it, it, that)
   }
+  implicit class Array2Lazy[A](val it: Array[A]) extends AnyVal {
+    def lazyZip[B](that: Iterable[B]): LazyZip2[A, B, Array[A]] = new LazyZip2(it, it, that)
+  }
+  implicit class String2Lazy(val it: String) extends AnyVal {
+    def lazyZip[B](that: Iterable[B]): LazyZip2[Char, B, String] = new LazyZip2(it, it, that)
+  }
+  implicit class Map2Lazy[K, V, C[K1, V1] <: Map[K1, V1]](val it: C[K,V]) extends AnyVal {
+    def lazyZip[B](that: Iterable[B]): LazyZip2[(K,V), B, C[K,V]] = new LazyZip2(it, it, that)
+  }
 }
