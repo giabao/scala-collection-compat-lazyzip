@@ -118,6 +118,17 @@ final class LazyZip2[+El1, +El2, C1] private[collection](src: C1, coll1: Iterabl
     while (elems1.hasNext && elems2.hasNext) f(elems1.next(), elems2.next())
   }
 
+  private def toIterable = new AbstractIterable[(El1, El2)] {
+    def iterator = new AbstractIterator[(El1, El2)] {
+      private[this] val elems1 = coll1.iterator
+      private[this] val elems2 = coll2.iterator
+      def hasNext = elems1.hasNext && elems2.hasNext
+      def next() = (elems1.next(), elems2.next())
+    }
+    override protected[collection] def sizeHintIfCheap: Int = zipKnownSize
+    override def isEmpty: Boolean = coll1.isEmpty || coll2.isEmpty
+  }
+
   private def zipKnownSize: Int = {
     val s1 = coll1.sizeHintIfCheap
     if (s1 == 0) 0 else {
@@ -127,6 +138,10 @@ final class LazyZip2[+El1, +El2, C1] private[collection](src: C1, coll1: Iterabl
   }
 
   override def toString = s"$coll1.lazyZip($coll2)"
+}
+
+object LazyZip2 {
+  implicit def lazyZip2ToIterable[El1, El2](zipped2: LazyZip2[El1, El2, _]): AbstractIterable[(El1, El2)] = zipped2.toIterable
 }
 
 
@@ -244,6 +259,18 @@ final class LazyZip3[+El1, +El2, +El3, C1] private[collection](src: C1,
       f(elems1.next(), elems2.next(), elems3.next())
   }
 
+  private def toIterable = new AbstractIterable[(El1, El2, El3)] {
+    def iterator = new AbstractIterator[(El1, El2, El3)] {
+      private[this] val elems1 = coll1.iterator
+      private[this] val elems2 = coll2.iterator
+      private[this] val elems3 = coll3.iterator
+      def hasNext = elems1.hasNext && elems2.hasNext && elems3.hasNext
+      def next() = (elems1.next(), elems2.next(), elems3.next())
+    }
+    override protected[collection] def sizeHintIfCheap: Int = zipKnownSize
+    override def isEmpty: Boolean = coll1.isEmpty || coll2.isEmpty || coll3.isEmpty
+  }
+
   private def zipKnownSize: Int = {
     val s1 = coll1.sizeHintIfCheap
     if (s1 == 0) 0 else {
@@ -257,6 +284,11 @@ final class LazyZip3[+El1, +El2, +El3, C1] private[collection](src: C1,
 
   override def toString = s"$coll1.lazyZip($coll2).lazyZip($coll3)"
 }
+
+object LazyZip3 {
+  implicit def lazyZip3ToIterable[El1, El2, El3](zipped3: LazyZip3[El1, El2, El3, _]): AbstractIterable[(El1, El2, El3)] = zipped3.toIterable
+}
+
 
 
 /** Decorator representing lazily zipped 4-tuples.
@@ -370,6 +402,19 @@ final class LazyZip4[+El1, +El2, +El3, +El4, C1] private[collection](src: C1,
       f(elems1.next(), elems2.next(), elems3.next(), elems4.next())
   }
 
+  private def toIterable = new AbstractIterable[(El1, El2, El3, El4)] {
+    def iterator = new AbstractIterator[(El1, El2, El3, El4)] {
+      private[this] val elems1 = coll1.iterator
+      private[this] val elems2 = coll2.iterator
+      private[this] val elems3 = coll3.iterator
+      private[this] val elems4 = coll4.iterator
+      def hasNext = elems1.hasNext && elems2.hasNext && elems3.hasNext && elems4.hasNext
+      def next() = (elems1.next(), elems2.next(), elems3.next(), elems4.next())
+    }
+    override protected[collection] def sizeHintIfCheap: Int = zipKnownSize
+    override def isEmpty: Boolean = coll1.isEmpty || coll2.isEmpty || coll3.isEmpty || coll4.isEmpty
+  }
+
   private def zipKnownSize: Int = {
     val s1 = coll1.sizeHintIfCheap
     if (s1 == 0) 0 else {
@@ -385,4 +430,9 @@ final class LazyZip4[+El1, +El2, +El3, +El4, C1] private[collection](src: C1,
   }
 
   override def toString = s"$coll1.lazyZip($coll2).lazyZip($coll3).lazyZip($coll4)"
+}
+
+object LazyZip4 {
+  implicit def lazyZip4ToIterable[El1, El2, El3, El4](zipped4: LazyZip4[El1, El2, El3, El4, _]): AbstractIterable[(El1, El2, El3, El4)] =
+    zipped4.toIterable
 }
