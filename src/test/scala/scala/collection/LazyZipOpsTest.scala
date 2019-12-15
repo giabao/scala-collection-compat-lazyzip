@@ -1,5 +1,6 @@
 package scala.collection
 
+import LazyZipOpsImplicits._
 import org.hamcrest.CoreMatchers._
 import org.junit.Assert._
 import org.junit.Test

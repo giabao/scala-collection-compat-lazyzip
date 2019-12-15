@@ -1,7 +1,9 @@
 package scala.collection
 
+import scala.language.higherKinds
+
 object LazyZipOpsImplicits {
-  implicit class Iterable2Lazy[A](val it: Iterable[A]) extends AnyVal {
+  implicit class Iterable2Lazy[A, C[T] <: Iterable[T]](val it: C[A]) extends AnyVal {
     /** Analogous to `zip` except that the elements in each collection are not consumed until a strict operation is
      * invoked on the returned `LazyZip2` decorator.
      *
@@ -19,6 +21,6 @@ object LazyZipOpsImplicits {
      * @return a decorator `LazyZip2` that allows strict operations to be performed on the lazily evaluated pairs
      *         or chained calls to `lazyZip`. Implicit conversion to `Iterable[(A, B)]` is also supported.
      */
-    def lazyZip[B](that: Iterable[B]): LazyZip2[A, B, it.type] = new LazyZip2(it, it, that)
+    def lazyZip[B](that: Iterable[B]): LazyZip2[A, B, C[A]] = new LazyZip2(it, it, that)
   }
 }
